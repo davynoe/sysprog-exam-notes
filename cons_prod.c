@@ -24,7 +24,7 @@
 
 #define N_PRODUCERS 6
 #define N_CONSUMERS 10
-#define SLEEP_NS 100000
+#define SLEEP_MICROSEC 100000
 #define BUF_SIZE 10
 
 sem_t semEmpty;
@@ -41,7 +41,7 @@ void *producer(void *arg) {
         /* Add to buffer */
         sem_wait(&semEmpty);
         pthread_mutex_lock(&mutexBuffer);
-        usleep(SLEEP_NS);
+        usleep(SLEEP_MICROSEC);
         buffer[count] = product;
         count++;
         pthread_mutex_unlock(&mutexBuffer);
@@ -56,7 +56,7 @@ void *consumer(void *arg) {
         /*  Get from buffer */
         sem_wait(&semFull);
         pthread_mutex_lock(&mutexBuffer);
-        usleep(SLEEP_NS);
+        usleep(SLEEP_MICROSEC);
         product = buffer[count - 1];
         count--;
         pthread_mutex_unlock(&mutexBuffer);
